@@ -1,0 +1,161 @@
+
+body {
+	background-color: black;
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+div {
+	overflow: hidden;
+	background-size: cover;
+	background-position: center;
+}
+
+.container {
+	height: 100%;
+	width: 100%;
+	position: relative;
+
+	> div {
+		// Defaults
+		position: absolute;
+		height: 100%;
+		width: 50%;
+	}
+
+	&.one div {
+		&:nth-child(1) {
+			left: 25%;
+			background-color: red;
+		}
+	}
+
+	&.two div {
+		&:nth-child(1) {
+			left: 0;
+			background-color: red;
+		}
+
+		&:nth-child(2) {
+			right: 0;
+			background-color: blue;
+		}
+	}
+
+	&.three div {
+		&:nth-child(1) {
+			height: 50%;
+			top: 0;
+			left: 0;
+			background-color: red;
+		}
+
+		&:nth-child(2) {
+			height: 50%;
+			top: 50%;
+			left: 0;
+			background-color: blue;
+		}
+
+		&:nth-child(3) {
+			top: 0;
+			right: 0;
+			background-color: green;
+		}
+	}
+
+	&.three-a div {
+		&:nth-child(1) {
+			width: 33.33%;
+			top: 0;
+			left: 0;
+			background-color: red;
+		}
+
+		&:nth-child(2) {
+			width: 33.33%;
+			top: 0;
+			left: 33.33%;
+			background-color: blue;
+		}
+
+		&:nth-child(3) {
+			width: 33.33%;
+			top: 0;
+			left: 66.66%;
+			background-color: green;
+		}
+	}
+
+	&.four div {
+		&:nth-child(1) {
+			height: 50%;
+			top: 0;
+			left: 0;
+			background-color: red;
+
+		}
+
+		&:nth-child(2) {
+			height: 50%;
+			width: 25%;
+			top: 50%;
+			left: 0;
+			background-color: blue;
+
+		}
+
+		&:nth-child(3) {
+			height: 50%;
+			width: 25%;
+			top: 50%;
+			left: 25%;
+			background-color: green;
+
+		}
+
+		&:nth-child(4) {
+			height: 100%;
+			top: 0;
+			right: 0;
+			background-color: yellow;
+
+		}
+	}
+
+	&.four-a div {
+		&:nth-child(1) {
+			height: 50%;
+			top: 0;
+			left: 0;
+			background-color: red;
+
+		}
+
+		&:nth-child(2) {
+			height: 50%;
+			top: 50%;
+			left: 0;
+			background-color: blue;
+
+		}
+
+		&:nth-child(3) {
+			height: 50%;
+			top: 50%;
+			right: 0;
+			background-color: green;
+
+		}
+
+		&:nth-child(4) {
+			height: 50%;
+			top: 0;
+			right: 0;
+			background-color: yellow;
+
+		}
+	}
+}
