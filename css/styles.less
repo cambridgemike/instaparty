@@ -7,13 +7,42 @@ body {
 	margin: 0;
 }
 
-div {
-	overflow: hidden;
+.profile_picture {
+	background-repeat: no-repeat;
+	background-position: left top; 
 	background-size: cover;
-	background-position: center;
+	height: 60px;
+	width: 60px; 
 }
 
-.container {
+.user {
+	margin-bottom: 10px;
+
+	&:last-child {
+		margin-bottom: 0px;
+	}
+}
+
+
+#spinner {
+	display: none;
+	position: fixed;
+	top: 7px;
+	right: 7px;
+	height: 50px;
+	width: 50px;
+	z-index: 100;
+}
+
+.csspinner:before {
+	background-color: inherit;
+	opacity: 1;
+}
+.csspinner.traditional:after {
+	border-bottom-color: white;
+}
+
+.slideContainer {
 	height: 100%;
 	width: 100%;
 	position: relative;
@@ -27,6 +56,10 @@ div {
 
 		border-width: 7px;
 		border-color: black;
+
+		overflow: hidden;
+		background-size: cover;
+		background-position: center;
 	}
 
 	&.one div {

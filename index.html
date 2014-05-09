@@ -3,11 +3,55 @@
     <title>Instaparty!</title>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-    <script type="text/javascript" src="instaparty.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" type="text/css" href="animate.min.css">
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/instaparty.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/csspinner.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
-  <body>
 
-  </body>
+  <body>
+    <div class="csspinner traditional" id="spinner"></div>
+    <div class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form" id="addUser">
+              <div class="form-group">
+                <label for="inputUsername">Username</label>
+                <input type="text" class="form-control" id="inputUsername" placeholder="Enter Instagram username">
+              </div>
+            </form>
+            <div id="userList" class="container-fluid">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+</body>
+
+  <script type="text/template" id="user_template">
+    <div class="row user">
+      <div class="col-md-2">
+        <div class="profile_picture" style="background-image: url(<%= profile_picture %>);"></div>
+      </div>
+      <div class="col-md-4" style="padding-left: 0;">
+        <h5><%= username %></h5>
+        <p><%= full_name %></p>
+      </div>
+      <div class="col-md-6">
+        <button type="button" class="close pull-right" data-user-id="<%= id %>" aria-hidden="true">&times;</button>
+      </div>
+    </div>
+  </script>
 </html>
