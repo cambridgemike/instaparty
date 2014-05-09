@@ -302,6 +302,22 @@ var getMediaAndPlay = function(user_ids) {
 	});
 };
 
+
+// Functions for the iOS app bridge
+var addUserByID = function(user_id) {
+	var user = new InstagramUser(user_id);
+	user.getRecentMedia()
+		.done(function(user){
+			slideShow.mediaList.addUser(user);
+			slideShow.restart();
+		});
+};
+
+var removeUserByID = function(user_id) {
+	slideShow.mediaList.removeUser(user_id);
+	slideShow.restart();
+};
+
 // Kick it off!!
 $(function(){
 	var users = getParameterByName('users').split(','),
