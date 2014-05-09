@@ -78,25 +78,53 @@ var getAllMedia = function(callback) {
 };
 
 
+var Layouts = {
+	layouts: {
+		1: ["one"],
+		2: ["two"],
+		3: ["three", "three-a"],
+		4: ["four", "four-a"]
+	},
 
+	forCount: function(count) {
+		return _.sample(this.layouts[count]);
+	}
+};
 
-var SlideController = function() {};
+var SlideController = function(images) {
+	var layout = Layouts.forCount(images.length),
+			self = this;
 
-SlideController.prototype.render = function(images) {
-	var layouts = ["one", "two", "three", "four"];
-
-	$(".container")
-		.empty()
-		.removeClass(layouts.join(" "));
+	this.$container = $("<div></div>") 
+		.addClass("container")
+		.addClass(layout);
 
 	_.each(images, function(image) {
 		var $div = $("<div></div>");
 		$div.css('background-image', 'url(' + image + ')');
-		$(".container").append($div);
+		self.$container.append($div);
 	});
+};
 
-	var layout = layouts[images.length - 1];
-	$(".container").addClass(layout);
+SlideController.prototype.animate = function(animation, callback) {
+	this.$container.find("> div")
+		.addClass('animated')
+		.addClass(animation);
+
+	this.$container.one('webkitAnimationEnd animationend', callback);
+};
+
+SlideController.prototype.render = function(images) {
+	$("body").append(this.$container);
+	this.animate('fadeInDown', _.noop);
+};
+
+SlideController.prototype.remove = function(callback) {
+	var self = this;
+	this.animate('fadeOutDown', function() {
+		self.$container.remove();
+		callback();
+	});
 };
 
 var SlideShowController = function(media) {
@@ -105,8 +133,8 @@ var SlideShowController = function(media) {
 
 	this.imageIndex = 0;
 	this.videosIndex = 0;
-	this.slideController = new SlideController();
-	this.interval = 5000;
+	this.interval = getParameterByName('interval') || 10000;
+	this.interval = parseInt(this.interval);
 
 	this.loopID = null;
 };
@@ -121,10 +149,24 @@ SlideShowController.prototype.stop = function() {
 };
 
 SlideShowController.prototype.nextSlide = function() {
-	console.log("imageIndex: " + this.imageIndex);
-	var numberOfSlides = _.random(1,3);
-	this.slideController.render(this.images.slice(this.imageIndex, this.imageIndex + numberOfSlides));
-	this.imageIndex += numberOfSlides;
+	var imageCount = _.random(1,4),
+			self = this;
+	console.log(this.imageIndex);
+	var addNewSlide = function(imageCount) {
+		return function(){
+			var images = self.images.slice(self.imageIndex, self.imageIndex + imageCount);
+			var slideController = new SlideController(images);
+			slideController.render();
+			self.prevSlide = slideController;
+		};
+	}(imageCount);
+
+	if(this.prevSlide)
+		this.prevSlide.remove(addNewSlide);
+	else
+		addNewSlide();
+
+	this.imageIndex += imageCount;
 	// Preload the next batch
 	preloadImages(this.images.slice(this.imageIndex, this.imageIndex + 4));
 	// preloadVideos(...);
@@ -133,7 +175,7 @@ SlideShowController.prototype.nextSlide = function() {
 var slideShow;
 getAllMedia(function(media) {
 	console.log(media);
-	preloadImages(media.images.slice(0, 4));
+	preloadImages(media.images.slice(0, 10));
 	// preloadImages(media.images.slice(0, 4));
 
 	$(document).ready(function() {

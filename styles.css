@@ -19,101 +19,114 @@ div {
   position: absolute;
   height: 100%;
   width: 50%;
+  -webkit-box-sizing: border-box;
+  border-width: 7px;
+  border-color: black;
 }
 .container.one div:nth-child(1) {
   left: 25%;
-  background-color: red;
 }
 .container.two div:nth-child(1) {
   left: 0;
-  background-color: red;
+  border-right-style: solid;
 }
 .container.two div:nth-child(2) {
   right: 0;
-  background-color: blue;
+  border-left-style: solid;
 }
 .container.three div:nth-child(1) {
   height: 50%;
   top: 0;
   left: 0;
-  background-color: red;
+  border-right-style: solid;
+  border-bottom-style: solid;
 }
 .container.three div:nth-child(2) {
   height: 50%;
   top: 50%;
   left: 0;
-  background-color: blue;
+  border-top-style: solid;
+  border-right-style: solid;
 }
 .container.three div:nth-child(3) {
   top: 0;
   right: 0;
-  background-color: green;
+  border-left-style: solid;
 }
 .container.three-a div:nth-child(1) {
   width: 33.33%;
   top: 0;
   left: 0;
-  background-color: red;
+  border-right-style: solid;
 }
 .container.three-a div:nth-child(2) {
   width: 33.33%;
   top: 0;
   left: 33.33%;
-  background-color: blue;
+  border-left-style: solid;
+  border-right-style: solid;
 }
 .container.three-a div:nth-child(3) {
   width: 33.33%;
   top: 0;
   left: 66.66%;
-  background-color: green;
+  border-left-style: solid;
 }
 .container.four div:nth-child(1) {
   height: 50%;
   top: 0;
   left: 0;
-  background-color: red;
+  border-right-style: solid;
+  border-bottom-style: solid;
 }
 .container.four div:nth-child(2) {
   height: 50%;
   width: 25%;
   top: 50%;
   left: 0;
-  background-color: blue;
+  border-top-style: solid;
+  border-right-style: solid;
 }
 .container.four div:nth-child(3) {
   height: 50%;
   width: 25%;
   top: 50%;
   left: 25%;
-  background-color: green;
+  border-left-style: solid;
+  border-top-style: solid;
+  border-right-style: solid;
 }
 .container.four div:nth-child(4) {
   height: 100%;
   top: 0;
   right: 0;
-  background-color: yellow;
+  border-left-style: solid;
 }
 .container.four-a div:nth-child(1) {
   height: 50%;
   top: 0;
   left: 0;
-  background-color: red;
+  border-right-style: solid;
+  border-bottom-style: solid;
 }
 .container.four-a div:nth-child(2) {
   height: 50%;
   top: 50%;
   left: 0;
-  background-color: blue;
+  border-top-style: solid;
+  border-right-style: solid;
 }
 .container.four-a div:nth-child(3) {
   height: 50%;
   top: 50%;
   right: 0;
-  background-color: green;
+  border-left-style: solid;
+  border-top-style: solid;
 }
 .container.four-a div:nth-child(4) {
   height: 50%;
   top: 0;
   right: 0;
-  background-color: yellow;
+  border-left-style: solid;
+  border-bottom-style: solid;
 }
