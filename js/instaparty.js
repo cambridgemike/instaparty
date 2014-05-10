@@ -183,6 +183,7 @@ var SlideController = function(images) {
 
     _.each(images, function(image) {
         var $div = $("<div></div>");
+        iamge = image.replace(/^http:/, "https:");
         $div.css('background-image', 'url(' + image + ')');
         self.$container.append($div);
     });
@@ -380,7 +381,7 @@ window.onload = function() {
       var payload = JSON.parse(event.data);
       console.log('Payload is:')
       console.log(payload);
-      
+
       if(payload.command == "addUser") {
         addUserByID(payload.user);
       }
