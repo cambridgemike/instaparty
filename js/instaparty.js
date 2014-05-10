@@ -378,7 +378,9 @@ window.onload = function() {
       console.log('Message [' + event.senderId + ']: ' + event.data);
       // display the message from the sender
       var payload = JSON.parse(event.data);
-
+      console.log('Payload is:')
+      console.log(payload);
+      
       if(payload.command == "addUser") {
         addUserByID(payload.user);
       }
