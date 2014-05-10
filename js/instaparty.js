@@ -8,7 +8,7 @@ var getParameterByName = function(name) {
 var preloadImages = function(images) {
     for(var i=0; i < images.length; i++){
         var imageObj = new Image();
-        imageObj.src = images[i].replace(/^http:/, "https:");
+        imageObj.src = images[i];
     }
 };
 
@@ -54,8 +54,14 @@ InstagramUser.prototype.getRecentMedia = function(_url) {
 
     $.getJSON(_url + '&callback=?', function(resp){
         // Update media
-        var images = _.map(resp.data, function(post) { if(post.images) return post.images.standard_resolution.url; }),
-                videos = _.map(resp.data, function(post) { if(post.videos) return post.videos.standard_resolution.url; });
+        var images = _.map(resp.data, function(post) { 
+                if(post.images) 
+                    return post.images.standard_resolution.url.replace(/^http:/, "https:"); 
+            }),
+            videos = _.map(resp.data, function(post) { 
+                if(post.videos) 
+                    return post.videos.standard_resolution.url.replace(/^http:/, "https:"); 
+            });
 
         user.images = user.images.concat(images);
         user.videos = user.videos.concat(videos);
@@ -199,7 +205,6 @@ var SlideController = function(images) {
 
     _.each(images, function(image) {
         var $div = $("<div></div>");
-        iamge = image.replace(/^http:/, "https:");
         $div.css('background-image', 'url(' + image + ')');
         self.$container.append($div);
     });
