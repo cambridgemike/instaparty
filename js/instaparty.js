@@ -356,10 +356,10 @@ window.onload = function() {
     
     // handler for 'senderdisconnected' event
     castReceiverManager.onSenderDisconnected = function(event) {
-      console.log('Received Sender Disconnected event: ' + event.data);
-      if (window.castReceiverManager.getSenders().length == 0) {
-            window.close();
-          }
+      // console.log('Received Sender Disconnected event: ' + event.data);
+      // if (window.castReceiverManager.getSenders().length == 0) {
+      //       window.close();
+      //     }
     };
 
     // handler for 'systemvolumechanged' event
