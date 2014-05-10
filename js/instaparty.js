@@ -8,7 +8,7 @@ var getParameterByName = function(name) {
 var preloadImages = function(images) {
     for(var i=0; i < images.length; i++){
         var imageObj = new Image();
-        imageObj.src = images[i];
+        imageObj.src = images[i].replace(/^http:/, "https:");
     }
 };
 
@@ -141,23 +141,39 @@ var MediaList = function() {
     // used by slideshow
     this.images = [];
     this.videos = [];
+    this.imageIndex = 0;
+    this.videoIndex = 0;
 };
 
-MediaList.prototype.compute = function() {
+MediaList.prototype.reset = function() {
+    this.imageIndex = 0;
+    this.videoIndex = 0;
     this.images = _(this.media).values().pluck('images').flatten().compact().shuffle().value();
     this.videos = _(this.media).values().pluck('videos').flatten().compact().shuffle().value();
 };
 
 MediaList.prototype.addUser = function(user) {
     this.media[user.id] = {images: user.images, videos: user.videos};
-    this.compute();
+    this.reset();
 };
 
 MediaList.prototype.removeUser = function(user_id) {
     delete this.media[user_id];
-    this.compute();
+    this.reset();
 };
 
+MediaList.prototype.getImages = function(image_count) {
+    if(this.imageIndex + image_count > this.images.length) {
+        this.reset();
+    }
+
+    var images = this.images.slice(this.imageIndex, this.imageIndex + image_count);
+    this.imageIndex += image_count;
+
+    // Preload the next batch
+    preloadImages(this.images.slice(this.imageIndex, this.imageIndex + 4));
+    return images;
+}
 
 var Layouts = {
     layouts: {
@@ -216,8 +232,6 @@ var SlideShowController = function() {
     this.mediaList = new MediaList();
     this.interval = getParameterByName('interval') || 10000;
     this.interval = parseInt(this.interval);
-    this.imageIndex = 0;
-    this.videosIndex = 0;
     this.loopID = null;
 };
 
@@ -237,8 +251,7 @@ SlideShowController.prototype.pause = function() {
 
 SlideShowController.prototype.restart = function() {
     this.pause();
-    this.imageIndex = 0;
-    this.videosIndex = 0;
+    this.mediaList.reset();
     preloadImages(this.mediaList.images.slice(0, 10));
     this.play();
 };
@@ -250,7 +263,7 @@ SlideShowController.prototype.nextSlide = function() {
 
     var addNewSlide = function(imageCount) {
         return function(){
-            var images = self.mediaList.images.slice(self.imageIndex, self.imageIndex + imageCount);
+            var images = self.mediaList.getImages(imageCount);
             var slideController = new SlideController(images);
             slideController.render();
             self.prevSlide = slideController;
@@ -261,11 +274,6 @@ SlideShowController.prototype.nextSlide = function() {
         this.prevSlide.remove(addNewSlide);
     else
         addNewSlide();
-
-    this.imageIndex += imageCount;
-    // Preload the next batch
-    preloadImages(this.mediaList.images.slice(this.imageIndex, this.imageIndex + 4));
-    // preloadVideos(...);
 };
 
 SlideShowController.prototype.remove = function() {
