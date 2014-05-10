@@ -20,8 +20,8 @@ var preloadVideos = function(videos) {
 };
 
 var CLIENT_ID = window.location.hash.substr(1),
-        INSTAGRAM_URL = 'https://api.instagram.com/v1/',
-        SLIDE_CONTAINER = 'slideContainer';
+    INSTAGRAM_URL = 'https://api.instagram.com/v1/',
+    SLIDE_CONTAINER = 'slideContainer';
 
 
 // Instagram module
@@ -318,6 +318,10 @@ var removeUserByID = function(user_id) {
     slideShow.restart();
 };
 
+var setClientID = function(client_id) {
+    CLIENT_ID = client_id;
+}
+
 // Kick it off!!
 $(function(){
     var users = getParameterByName('users').split(','),
@@ -381,6 +385,10 @@ window.onload = function() {
 
       if(payload.command == "removeUser") {
         removeUserByID(payload.user);
+      }
+
+      if(payload.command == "setClientID") {
+        setClientID(payload.clientID);
       }
 
       // inform all senders on the CastMessageBus of the incoming message event
