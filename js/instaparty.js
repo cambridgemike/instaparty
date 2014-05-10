@@ -325,7 +325,5 @@ $(function(){
 
 	if(user_ids && user_ids.length > 0) {
 		getMediaAndPlay(user_ids);
-	} else {
-		$(".modal").modal('show');
 	}
 });
