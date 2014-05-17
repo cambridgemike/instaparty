@@ -403,8 +403,20 @@ window.onload = function() {
         removeUserByID(payload.user);
       }
 
+      if(payload.command == "play") {
+        slideShow.play();
+      }
+
+      if(payload.command == "pause") {
+        slideShow.pause();
+      }
+
       if(payload.command == "setClientID") {
         setClientID(payload.clientID);
+      }
+
+      if(payload.command == "killYourself") {
+        window.close();
       }
 
       // inform all senders on the CastMessageBus of the incoming message event
