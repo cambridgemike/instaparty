@@ -242,16 +242,18 @@ var SlideShowController = function() {
 
 SlideShowController.prototype.play = function() {
     var self = this;
-    window.clearTimeout(this.playTimeout);
+    clearTimeout(this.playTimeout);
     // Delay start by 1 second to allow time for preload;
     this.playTimeout = setTimeout(function() {
         self.nextSlide();
+        clearInterval(self.loopID);
         self.loopID = setInterval(function(){ self.nextSlide() }, self.interval);
     }, 2000);
 };
 
 SlideShowController.prototype.pause = function() {
-    window.clearInterval(this.loopID);
+    clearInterval(this.loopID);
+    this.loopID = null;
 };
 
 SlideShowController.prototype.restart = function() {
