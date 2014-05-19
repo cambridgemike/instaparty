@@ -238,10 +238,12 @@ var SlideShowController = function() {
     this.interval = getParameterByName('interval') || 10000;
     this.interval = parseInt(this.interval);
     this.loopID = null;
+    this.state = "paused";
 };
 
 SlideShowController.prototype.play = function() {
     var self = this;
+    self.state = "playing";
     clearTimeout(this.playTimeout);
     // Delay start by 1 second to allow time for preload;
     this.playTimeout = setTimeout(function() {
@@ -252,6 +254,7 @@ SlideShowController.prototype.play = function() {
 };
 
 SlideShowController.prototype.pause = function() {
+    self.state = "paused"
     clearInterval(this.loopID);
     this.loopID = null;
 };
@@ -320,18 +323,20 @@ var getMediaAndPlay = function(user_ids) {
 
 
 // Functions for the iOS app bridge
-var addUserByID = function(user_id) {
+var addUserByID = function(user_id, callback) {
     var user = new InstagramUser(user_id);
     user.getRecentMedia()
         .done(function(user){
             slideShow.mediaList.addUser(user);
             slideShow.restart();
+            callback()
         });
 };
 
-var removeUserByID = function(user_id) {
+var removeUserByID = function(user_id, callback) {
     slideShow.mediaList.removeUser(user_id);
     slideShow.restart();
+    callback()
 };
 
 var setClientID = function(client_id) {
@@ -397,20 +402,26 @@ window.onload = function() {
       console.log('Payload is:')
       console.log(payload);
 
+      var returnState = function(senderId) {
+        return function() {
+          window.messageBus.send(senderId, JSON.stringify({command: "updateState", state: slideShow.state}));
+        }
+      }(event.senderId)
+
       if(payload.command == "addUser") {
-        addUserByID(payload.user);
+        addUserByID(payload.user, returnState);
       }
 
       if(payload.command == "removeUser") {
-        removeUserByID(payload.user);
+        removeUserByID(payload.user, returnState);
       }
 
-      if(payload.command == "play") {
-        slideShow.play();
-      }
-
-      if(payload.command == "pause") {
-        slideShow.pause();
+      if(payload.command == "play_pause") {
+        if(slideShow.state === "paused")
+            slideShow.play();
+        else
+            slideShow.pause();
+        returnState();
       }
 
       if(payload.command == "setClientID") {
