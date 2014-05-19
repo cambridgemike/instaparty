@@ -254,7 +254,7 @@ SlideShowController.prototype.play = function() {
 };
 
 SlideShowController.prototype.pause = function() {
-    self.state = "paused"
+    this.state = "paused"
     clearInterval(this.loopID);
     this.loopID = null;
 };
