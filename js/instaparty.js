@@ -421,6 +421,7 @@ window.onload = function() {
             slideShow.play();
         else
             slideShow.pause();
+        console.log("Current state is: " + slideShow.state);
         returnState();
       }
 
